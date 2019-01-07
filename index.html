@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tareas para hacer</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<style>
+h2{
+  text-align: center;
+}
+.tareasrealizada{
+  text-decoration: line-through;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="taskApp" class="col-sm-8 col-sm-offset-2">
+    <h2>{{nameApp}}</h2>
+    <form v-on:submit="agregarTarea">
+      <input type="text" v-model="tareas.titulo" class="form-control">
+      <input type="submit" value="Agregar otra Tarea" class="btn btn-block btn-success">
+    </form>
+    <br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Realizado</th>
+      <th>Tarea</th>
+      <th>Eliminar</th>
+    </tr>
+  </thead>
+  <tr v-for="tarea in tareas">
+    <td>
+      <input type="checkbox" v-model="tarea.hecho">
+    </td>
+    <td :class="{tareasrealizada: tarea.hecho}">
+      {{tarea.titulo}}
+    </td>
+    <td><button v-on:click="eliminarTarea(tarea)" class="btn btn-dark">
+      Eliminar
+    </button></td>
+  </tr>
+</table>
+
+</table>
+  </div>
+</div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
+    new Vue({
+      el: '#taskApp',
+      data: {
+        nameApp:'Listado de tareas del dia de hoy:',
+        tareas:[
+            {
+          titulo:'Avanzar con Inglés',
+          hecho:false,
+            },
+            {
+        titulo:'Practicar Vue Js',
+        hecho: false,
+            },
+            {
+          titulo:'Subir código a Git',
+          hecho:false,
+            },
+            {
+      titulo:'Hacer app o página',
+      hecho: false,
+            }
+        ]
+      },
+  methods:{
+    eliminarTarea:function (tarea){
+      this.tareas.splice(this.tareas.indexOf(tarea), 1);
+    },
+    agregarTarea: function(e){
+      e.preventDefault();
+      this.tareas.push({
+        titulo: this.tareas.titulo,
+        hecho: false
+      });
+      this.tareas.titulo= '';
+    }
+            }
+
+    });
+  </script>
+</body>
+</html>
